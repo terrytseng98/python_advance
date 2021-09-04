@@ -11,7 +11,7 @@ def move_canvas(event):
     elif key=="Down":
         canvas.move(circle,0,20)
     elif key=="d":
-        canvas.move(rec20,0)
+        canvas.move(rec,20,0)
     elif key=="a":
         canvas.move(rec,-20,0)
     elif key=="w":
