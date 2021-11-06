@@ -33,7 +33,7 @@ def get():
     plt.plot(position, remain_bike,"g--", label="剩餘車輛")
     plt.legend(loc="best")
     plt.show()
-
+    
 windows = Tk()
 windows.title('gui')
 
