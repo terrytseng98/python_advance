@@ -28,6 +28,7 @@
         }
     ],
     "python.analysis.extraPaths": [
-        "c:/Users/terry_ieholzd/.vscode/extensions/rt-thread.rt-thread-micropython-1.0.11/microExamples/code-completion"
+        "c:/Users/terry_ieholzd/.vscode/extensions/rt-thread.rt-thread-micropython-1.0.11/microExamples/code-completion",
+        "./common"
     ]
 }
