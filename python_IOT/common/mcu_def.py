@@ -5,6 +5,7 @@ import network
 from esp8266_i2c_lcd import I2cLcd
 from machine import I2C, PWM, Pin
 from umqtt.simple import MQTTClient
+import sys
 
 
 class gpio:
@@ -63,7 +64,7 @@ class mcu_fun:
             BLUE = PWM(Pin(b_pin), freq=f, duty=d)
         return (RED, GREEN, BLUE)
 
-    def connect_mqtt(self, mq_id: str):
+    def mqtt_subscribe(self, mq_id: str, callback=None):
         mq_server = "singularmakers.asuscomm.com"
         mq_user = "singular"
         mq_pass = "1234"
@@ -79,13 +80,14 @@ class mcu_fun:
             sys.exit()
         finally:
             print("connected MQTT server")
+        self.mqClient.set_callback(callback)
 
-    def check_msg(self):
+    def mqtt_get_msg(self, topic: str):
+        self.mqClient.subscribe(topic)
         self.mqClient.check_msg()
-
-    def ping(self):
         self.mqClient.ping()
 
-    def subscribe(self, topic_name: str, on_message):
-        self.mqClient.set_callback(on_message)
-        self.mqClient.subscribe(topic_name)
+    def mqtt_put_msg(self, topic: str, msg: str):
+        topic = topic.encode("utf-g")
+        msg = msg.encode("utf-8")
+        self.mqClient.publish(topic, msg)
