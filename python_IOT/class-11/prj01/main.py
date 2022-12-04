@@ -6,13 +6,31 @@ import json
 
 mcu = mcu_fun()
 adc = ADC(0)
+RED, GREEN, BLUE = mcu.led_initial(r_pin=gpio.D5, g_pin=gpio.D6, b_pin=gpio.D7)
 mcu.connect_ap("SingularClass0", "Singular#1234")
 d = dht.DHT11(Pin(gpio.D0, Pin.IN))
 mcu.mqtt_subscribe(mq_id="Terry")
 lcd = mcu.lcd_initial(scl_pin=gpio.D1, sda_pin=gpio.D2)
 msg_json = {}
 
+
+def on_message(topic, msg):
+    msg = msg.decode("utf-8")
+    topic = topic.decode("utf-8")
+    if msg == "on":
+        RED.value(1)
+        BLUE.value(1)
+        GREEN.value(1)
+    if msg == "off":
+        RED.value(0)
+        BLUE.value(0)
+        GREEN.value(0)
+
+
+mcu.mqtt_subscribe(mq_id="Terry", callback=on_message)
+
 while True:
+
     d.measure()
     temp = d.temperature()
     hum = d.humidity()
@@ -26,4 +44,5 @@ while True:
     msg_json["Temperature"] = temp
     msg_json["light_sensor"] = sensor
     mcu.mqtt_put_msg(topic='Terry', msg=json.dumps(msg_json))
+    mcu.mqtt_get_msg(topic="Terry")
     time.sleep(1)
