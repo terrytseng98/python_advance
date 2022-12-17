@@ -1,6 +1,4 @@
 import time
-from time import time
-
 import network
 from esp8266_i2c_lcd import I2cLcd
 from machine import I2C, PWM, Pin
