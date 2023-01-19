@@ -36,4 +36,4 @@ while True:
         buf2[2] = 0
         buf2[3] = 174
         uart.write(buf2)
-    time.sleep(1)
+    time.sleep(0.5)
